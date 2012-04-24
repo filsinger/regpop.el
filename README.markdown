@@ -9,10 +9,14 @@ An [emacs](http://www.gnu.org/software/emacs/) minor-mode to search for a regex 
 (add-to-list 'load-path <path_to_regpop>)
 (require 'regpop)
 ```
+
+## configuration
+### options
+* `regpop-isearch` -- When set to `t` _(default)_, the popup will provide isearch functionality.  Set to `nil` to disable isearch.
+* `regpop-display-containing-function` -- When set to `t` _(default)_, each entry will be prefixed with the function that contains the result.  Set to `nil` to disable the function display.
+
 ## usage
-```
-M-x regpop
-```
+`M-x regpop` -- user will be prompted for a regex.
 
 ## functions
 ### regpop
@@ -25,7 +29,7 @@ Search for a user provided regex and display the results in a popup.  Selecting 
 ** if no buffer is provided, the current buffer will be used.
 
 #### example usage
-Display a list of all TODOS in the current buffer.
+Display a list of all TODOs in the current buffer.
 ```lisp
 (regpop "[tT][oO][dD][oO].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$")
 ```
