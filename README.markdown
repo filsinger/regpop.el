@@ -16,11 +16,14 @@ M-x regpop
 
 ## functions
 ### regpop
+Search for a user provided regex and display the results in a popup.  Selecting an entry will jump to the line containing the regex.
+
 #### arguments:
 * `regex` -- The regular expression to search for
 ** if the regex contains a group, the first group in the regex will be displayed in the popup.  This provides a very basic filtering out of the text displayed in the popup.
 * `buffer` -- *(optional)* The buffer to perform the search on.
 ** if no buffer is provided, the current buffer will be used.
+
 #### example usage
 Display a list of all TODOS in the current buffer.
 ```lisp
