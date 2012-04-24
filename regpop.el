@@ -1,7 +1,8 @@
 ;; regpop.el
-;;   Uses popup.el to display a list of regex matches
-;;   which upon selection will jump to the line containing
-;;   the regex.
+;;   An emacs minor-mode to search for a regex and display
+;;   the results in a popup.
+;;
+;; website: https://github.com/filsinger/regpop.el
 ;;
 ;; author: Jason Filsinger (https://github.com/filsinger)
 ;;
