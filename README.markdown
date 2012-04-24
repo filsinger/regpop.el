@@ -14,6 +14,7 @@ An [emacs](http://www.gnu.org/software/emacs/) minor-mode to search for a regex 
 ### options
 * `regpop-isearch` -- When set to `t` _(default)_, the popup will provide isearch functionality.  Set to `nil` to disable isearch.
 * `regpop-display-containing-function` -- When set to `t` _(default)_, each entry will be prefixed with the function that contains the result.  Set to `nil` to disable the function display.
+* `regpop-display-line` -- When set to `t` _(default)_, each entry will be prefixed with the line that contains the regex.  Set to `nil` to disable the line display.
 
 ## usage
 `M-x regpop` -- user will be prompted for a regex.
