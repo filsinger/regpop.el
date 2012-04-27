@@ -24,7 +24,7 @@
 (defvar regpop-isearch t
   "When set, regpop will use isearch with the popup")
 
-(defvar regpop-display-containing-function t
+(defvar regpop-display-containing-function nil
   "When value is t, the regpop will prefix the popup entry with the
 name of the function containing the regex.")
 
@@ -70,7 +70,7 @@ line number containing the regex.")
 	      (when newEntry
 		(progn
 		  (goto-line currLineNumber)
-		  (let ((currPrefix (regpop-format-prefix (which-function) currLineNumber)))
+		  (let ((currPrefix (regpop-format-prefix (if regpop-display-containing-function (which-function) nil) currLineNumber)))
 		    (when currPrefix (setq newEntry (format "%s%s" currPrefix newEntry))))
 		  (setq retList (append retList (list (popup-make-item newEntry :value currLineNumber)))))))))
     (when (> (length retList) 1) (goto-line initialLine))

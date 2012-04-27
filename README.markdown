@@ -2,7 +2,7 @@
 An [emacs](http://www.gnu.org/software/emacs/) minor-mode to search for a regex and display the results in a popup.
 
 ## requirements
-- [popup.el](https://github.com/m2ym/popup-el) 
+- [popup.el](https://github.com/m2ym/popup-el)
 
 ## installation
 ```lisp
@@ -13,7 +13,7 @@ An [emacs](http://www.gnu.org/software/emacs/) minor-mode to search for a regex 
 ## configuration
 ### options
 * `regpop-isearch` -- When set to `t` _(default)_, the popup will provide isearch functionality.  Set to `nil` to disable isearch.
-* `regpop-display-containing-function` -- When set to `t` _(default)_, each entry will be prefixed with the function that contains the result.  Set to `nil` to disable the function display.
+* `regpop-display-containing-function` -- When set to `nil` _(default)_, each entry will be prefixed with the function that contains the result.  Set to `t` to enable the function display (requires which-function to be enabled).
 * `regpop-display-line` -- When set to `t` _(default)_, each entry will be prefixed with the line that contains the regex.  Set to `nil` to disable the line display.
 
 #### example
@@ -22,7 +22,7 @@ An [emacs](http://www.gnu.org/software/emacs/) minor-mode to search for a regex 
 (setq regpop-display-containing-function nil)  ; disable function information
 (setq regpop-display-line nil)                 ; disable line number
 ```
-	
+
 ## usage
 `M-x regpop` -- user will be prompted for a regex.
 
@@ -44,4 +44,3 @@ Display a list of all TODOs in the current buffer.
 
 ## credits
 * Author: [Jason Filsinger](http://filsinger.me)
-
