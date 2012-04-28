@@ -33,6 +33,7 @@ Search for a user provided regex and display the results in a popup.  Selecting 
 #### arguments:
 * `regex` -- The regular expression to search for
 ** if the regex contains a group, the first group in the regex will be displayed in the popup.  This provides a very basic filtering out of the text displayed in the popup.
+* `index` -- *(optional)* The regex group index to display in the popup. (default is 1)
 * `buffer` -- *(optional)* The buffer to perform the search on.
 ** if no buffer is provided, the current buffer will be used.
 

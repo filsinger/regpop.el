@@ -53,7 +53,7 @@ line number containing the regex.")
     (when (and regpop-display-containing-function functionName) (setq retStr (if retStr (concat retStr ":" functionName) functionName)))
     (when (and retStr (> (length retStr) 0)) (concat "[" retStr "] "))))
 
-(defun regpop-get-match-list (regexToMatch &optional buffer)
+(defun regpop-get-match-list (regexToMatch &optional index buffer)
   "Return a list of popup-items that match the regex."
   (interactive "MThe regex to match: ")
   (let ((retList (list))
@@ -66,7 +66,7 @@ line number containing the regex.")
     (loop for currLine in buffer-lines do
 	  (setq currLineNumber (+ currLineNumber 1))
 	  (when (and currLine (string-match regexToMatch currLine))
-	    (let ((newEntry (or (match-string 1 currLine) (regpop-delete-surrounding-whitespace currLine))))
+	    (let ((newEntry (or (match-string (if index index 1) currLine) (regpop-delete-surrounding-whitespace currLine))))
 	      (when newEntry
 		(progn
 		  (goto-line currLineNumber)
@@ -78,10 +78,10 @@ line number containing the regex.")
     (if (> (length retList) 0) retList nil)))
 
 
-(defun regpop (regexToMatch &optional buffer)
+(defun regpop (regexToMatch &optional index buffer)
   "Display a popup for all instinces of a regex in the current Buffer."
   (interactive "MThe regex to match: ")
-  (let ((regexList (regpop-get-match-list regexToMatch buffer)))
+  (let ((regexList (regpop-get-match-list regexToMatch index buffer)))
     (when regexList
       (setq tempLine (if (> (length regexList) 1)
 			 (popup-menu* regexList :isearch regpop-isearch)
