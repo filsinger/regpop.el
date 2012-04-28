@@ -41,6 +41,7 @@ Search for a user provided regex and display the results in a popup.  Selecting 
 Display a list of all TODOs in the current buffer.
 ```lisp
 (regpop "[tT][oO][dD][oO].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$")
+(regpop* "[tT][oO][dD][oO].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$" :index 1)
 ```
 
 ## credits

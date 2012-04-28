@@ -77,33 +77,37 @@ line number containing the regex.")
     (when needBufferSwitch (set-buffer prevBuffer))
     (if (> (length retList) 0) retList nil)))
 
-
-(defun regpop (regexToMatch &optional index buffer)
-  "Display a popup for all instinces of a regex in the current Buffer."
-  (interactive "MThe regex to match: ")
-  (let ((regexList (regpop-get-match-list regexToMatch index buffer)))
+(defun* regpop* (regex &key index buffer point)
+  "Display a popup for all instinces of a regex in a buffer."
+  (let ((regexList (regpop-get-match-list regex index buffer)))
     (when regexList
       (setq tempLine (if (> (length regexList) 1)
-			 (popup-menu* regexList :isearch regpop-isearch)
+			 (popup-menu* regexList :isearch regpop-isearch :point point)
 		       (car (popup-item-value regexList))))
       (when tempLine
 	(progn
 	  (when buffer (set-buffer buffer))
 	  (goto-line tempLine))))))
 
+(defun regpop (regex &optional index buffer)
+  "Display a popup for all instinces of a regex in a buffer."
+  (interactive (list (read-from-minibuffer "Regex: ")
+		     (string-to-number (read-from-minibuffer "Regex group index: " nil nil nil nil "0"))))
+  (regpop* regex :index index :buffer buffer))
+
 (defun regpop-todo ()
   "popup all todos in the current buffer."
   (interactive)
-  (regpop regpop-todo))
+  (regpop* regpop-todo :index 1))
 
 (defun regpop-stub ()
   "popup all stubs in the current buffer."
   (interactive)
-  (regpop regpop-stub))
+  (regpop* regpop-stub :index 1))
 
 (defun regpop-assert ()
   "popup all stubs in the current buffer."
   (interactive)
-  (regpop regpop-assert))
+  (regpop* regpop-assert :index 1))
 
 (provide 'regpop)
