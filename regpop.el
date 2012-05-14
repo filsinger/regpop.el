@@ -6,7 +6,7 @@
 ;;
 ;; author: Jason Filsinger (https://github.com/filsinger)
 ;;
-;; reuirements:
+;; requirements:
 ;;   popup.el (https://github.com/m2ym/popup-el)
 ;;
 ;; bugs:
