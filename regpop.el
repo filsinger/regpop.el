@@ -35,7 +35,6 @@ line number containing the regex.")
 
 (defun regpop-buffer-lines-to-list(&optional buffer)
   "Returns a list of strings for every line in a buffer."
-  (interactive "P")
   (let ((prevBuffer (current-buffer))
 	(needBufferSwitch (and buffer (not (eq buffer (current-buffer))))))
     (when needBufferSwitch (set-buffer buffer))
@@ -45,17 +44,16 @@ line number containing the regex.")
 
 (defun regpop-delete-surrounding-whitespace (string)
   "Deletes the leading and trailing whitespace in a string."
-  (interactive "MString: ")
   (replace-regexp-in-string "^[[:space:]]?+" "" (replace-regexp-in-string "[[:space:]]?+$" "" string)))
 
 (defun regpop-format-prefix (functionName lineNumber)
+  "Format the function name based on the regpop options"
   (let ((retStr (when regpop-display-line (number-to-string lineNumber))))
     (when (and regpop-display-containing-function functionName) (setq retStr (if retStr (concat retStr ":" functionName) functionName)))
     (when (and retStr (> (length retStr) 0)) (concat "[" retStr "] "))))
 
 (defun regpop-get-match-list (regexToMatch &optional index buffer)
   "Return a list of popup-items that match the regex."
-  (interactive "MThe regex to match: ")
   (let ((retList (list))
 	(buffer-lines (regpop-buffer-lines-to-list (or buffer (current-buffer))))
 	(currLineNumber 0)
