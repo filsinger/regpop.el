@@ -87,22 +87,26 @@ line number containing the regex.")
 	  (when buffer (set-buffer buffer))
 	  (goto-line tempLine))))))
 
+;;;###autoload
 (defun regpop (regex &optional index buffer)
   "Display a popup for all instinces of a regex in a buffer."
   (interactive (list (read-from-minibuffer "Regex: ")
 		     (string-to-number (read-from-minibuffer "Regex group index: " nil nil nil nil "0"))))
   (regpop* regex :index index :buffer buffer))
 
+;;;###autoload
 (defun regpop-todo ()
   "popup all todos in the current buffer."
   (interactive)
   (regpop* regpop-todo :index 1))
 
+;;;###autoload
 (defun regpop-stub ()
   "popup all stubs in the current buffer."
   (interactive)
   (regpop* regpop-stub :index 1))
 
+;;;###autoload
 (defun regpop-assert ()
   "popup all stubs in the current buffer."
   (interactive)
