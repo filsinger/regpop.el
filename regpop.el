@@ -32,6 +32,11 @@ name of the function containing the regex.")
   "When value is t, the regpop will prefix the popup entry with the
 line number containing the regex.")
 
+(defun regpop-goto-line (line)
+  "because goto-line isnt supposed to be used in lisp code."
+  (interactive)
+  (goto-char (point-min))
+  (forward-line (1- line)))
 
 (defun regpop-buffer-lines-to-list(&optional buffer)
   "Returns a list of strings for every line in a buffer."
@@ -67,11 +72,11 @@ line number containing the regex.")
 	    (let ((newEntry (or (match-string (if index index 1) currLine) (regpop-delete-surrounding-whitespace currLine))))
 	      (when newEntry
 		(progn
-		  (goto-line currLineNumber)
+		  (regpop-goto-line currLineNumber)
 		  (let ((currPrefix (regpop-format-prefix (if regpop-display-containing-function (which-function) nil) currLineNumber)))
 		    (when currPrefix (setq newEntry (format "%s%s" currPrefix newEntry))))
 		  (setq retList (append retList (list (popup-make-item newEntry :value currLineNumber)))))))))
-    (when (> (length retList) 1) (goto-line initialLine))
+    (when (> (length retList) 1) (regpop-goto-line initialLine))
     (when needBufferSwitch (set-buffer prevBuffer))
     (if (> (length retList) 0) retList nil)))
 
@@ -85,7 +90,7 @@ line number containing the regex.")
       (when tempLine
 	(progn
 	  (when buffer (set-buffer buffer))
-	  (goto-line tempLine))))))
+	  (regpop-goto-line tempLine))))))
 
 ;;;###autoload
 (defun regpop (regex &optional index buffer)
