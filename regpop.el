@@ -41,7 +41,7 @@ line number containing the regex.")
 (defun regpop-buffer-lines-to-list(&optional buffer)
   "Returns a list of strings for every line in a buffer."
   (let ((prevBuffer (current-buffer))
-	(needBufferSwitch (and buffer (not (eq buffer (current-buffer))))))
+	(needBufferSwitch (and buffer (not (eq buffer (current-buffer))))) buffer-lines)
     (when needBufferSwitch (set-buffer buffer))
     (setq buffer-lines (split-string (buffer-substring-no-properties (buffer-end -1) (buffer-end 1)) "\n" nil))
     (when needBufferSwitch (set-buffer prevBuffer))
@@ -82,7 +82,7 @@ line number containing the regex.")
 
 (defun* regpop* (regex &key index buffer point)
   "Display a popup for all instinces of a regex in a buffer."
-  (let ((regexList (regpop-get-match-list regex index buffer)))
+  (let ((regexList (regpop-get-match-list regex index buffer)) tempLine)
     (when regexList
       (setq tempLine (if (> (length regexList) 1)
 			 (popup-menu* regexList :isearch regpop-isearch :point point)
