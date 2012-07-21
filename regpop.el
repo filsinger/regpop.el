@@ -54,25 +54,30 @@ line number containing the regex."
   :type 'boolean
   :group 'regpop)
 
+(defcustom regpop-preferred-width nil
+  "When value is t, the regpop will push a new mark before jumping to the matching entry."
+  :type 'number
+  :group 'regpop)
 
 (defun regpop-delete-surrounding-whitespace (string)
   "Deletes the leading and trailing whitespace in a string."
   (replace-regexp-in-string "^[[:space:]]?+" "" (replace-regexp-in-string "[[:space:]]?+$" "" string)))
 
-(defun regpop-make-popup-item (function start text)
+
+(defun* regpop-make-popup-item* (point value &key function show-line)
   "Make a popup menu item for regpop."
   (let ((item-function (if regpop-display-containing-function function nil))
-		(item-line (if regpop-display-line (number-to-string (line-number-at-pos start) ) nil)))
+		(item-line (if show-line (number-to-string (line-number-at-pos point)) nil)))
 	(let ((item-prefix
 		   (or (and (and (and item-function (stringp item-function)) item-line)
 					(concat item-function ":" item-line)) (or (when (boundp item-function)item-function) (when item-line item-line)))))
 	  (popup-make-item
-	   (concat (or (when item-prefix (concat "[" item-prefix "] ")) "") (regpop-delete-surrounding-whitespace text))
-	   :value start
+	   (concat (or (when item-prefix (concat "[" item-prefix "] ")) "") (regpop-delete-surrounding-whitespace value))
+	   :value point
 	   ))))
 
 
-(defun regpop-get-match-list (regex &optional subexp buffer)
+(defun* regpop-get-match-list* (regex &key subexp buffer show-line)
   "Return a list of popup-items that match the regex."
   (let ((regexp-subexp (if subexp subexp 0))
 		ret-list)
@@ -80,19 +85,20 @@ line number containing the regex."
 	  (save-excursion
 		(goto-char (point-max))
 		(while (re-search-backward regex nil t)
-		  (add-to-list 'ret-list (regpop-make-popup-item
-								  (if (featurep 'which-func) (which-function) nil)
+		  (add-to-list 'ret-list (regpop-make-popup-item*
 								  (match-beginning regexp-subexp)
-								  (match-string-no-properties regexp-subexp))))))
+								  (match-string-no-properties regexp-subexp)
+								  :function (if (featurep 'which-func) (which-function) nil)
+								  :show-line show-line )))))
 	ret-list))
 
 
-(defun* regpop* (regex &key subexp buffer point)
+(defun* regpop* (regex &key subexp buffer point show-line width)
   "Display a popup for all instinces of a regex in a buffer."
-  (let ((regpop-list (regpop-get-match-list regex subexp buffer)) item-point)
+  (let ((regpop-list (regpop-get-match-list* regex :subexp subexp :buffer buffer :show-line show-line)))
     (when regpop-list
       (let ((item-point (if (> (length regpop-list) 1)
-							(popup-menu* regpop-list :isearch regpop-isearch :point point)
+							(popup-menu* regpop-list :isearch regpop-isearch :point point :width (if width width (popup-preferred-width regpop-list)))
 						  (popup-item-value (car regpop-list) ))))
 		(when item-point
 		  (progn
@@ -106,24 +112,24 @@ line number containing the regex."
   "Display a popup for all instinces of a regex in a buffer."
   (interactive (list (read-from-minibuffer "Regex: ")
 					 (string-to-number (read-from-minibuffer "Regex group subexp: " nil nil nil nil "0"))))
-  (regpop* regex :subexp subexp :buffer buffer))
+  (regpop* regex :subexp subexp :buffer buffer :show-line regpop-display-line :width regpop-preferred-width))
 
 ;;;###autoload
 (defun regpop-todo ()
   "popup all todos in the current buffer."
   (interactive)
-  (regpop* regpop-todo :subexp 1))
+  (regpop* regpop-todo :subexp 1 :show-line regpop-display-line :width regpop-preferred-width))
 
 ;;;###autoload
 (defun regpop-stub ()
   "popup all stubs in the current buffer."
   (interactive)
-  (regpop* regpop-stub :subexp 1))
+  (regpop* regpop-stub :subexp 1 :show-line regpop-display-line :width regpop-preferred-width))
 
 ;;;###autoload
 (defun regpop-assert ()
   "popup all stubs in the current buffer."
   (interactive)
-  (regpop* regpop-assert :subexp 1))
+  (regpop* regpop-assert :subexp 1 :show-line regpop-display-line :width regpop-preferred-width))
 
 (provide 'regpop)
