@@ -59,6 +59,9 @@ line number containing the regex."
   :type 'number
   :group 'regpop)
 
+(defvar regpop-history-regexp nil "Regpop regexp history")
+(defvar regpop-history-subexp nil "Regpop subexpression history")
+
 (defun regpop-delete-surrounding-whitespace (string)
   "Deletes the leading and trailing whitespace in a string."
   (replace-regexp-in-string "^[[:space:]]?+" "" (replace-regexp-in-string "[[:space:]]?+$" "" string)))
@@ -107,11 +110,12 @@ line number containing the regex."
 			(goto-char item-point)
 			(recenter)))))))
 
+
 ;;;###autoload
 (defun regpop (regex &optional subexp buffer)
   "Display a popup for all instinces of a regex in a buffer."
-  (interactive (list (read-from-minibuffer "Regex: ")
-					 (string-to-number (read-from-minibuffer "Regex group subexp: " nil nil nil nil "0"))))
+  (interactive (list (read-from-minibuffer "Symbol (word or regexp): " nil nil nil 'regpop-history-regexp )
+					 (string-to-number (read-from-minibuffer "Subexpression index (default 0): " nil nil nil 'regpop-history-subexp "0" ))))
   (regpop* regex :subexp subexp :buffer buffer :show-line regpop-display-line :width regpop-preferred-width))
 
 ;;;###autoload
