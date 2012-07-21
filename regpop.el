@@ -107,7 +107,8 @@ line number containing the regex."
       (when tempLine
 	(progn
 	  (when buffer (set-buffer buffer))
-	  (regpop-goto-line tempLine))))))
+	  (regpop-goto-line tempLine)
+	  (recenter))))))
 
 ;;;###autoload
 (defun regpop (regex &optional index buffer)
