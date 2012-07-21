@@ -17,20 +17,37 @@
 
 (require 'popup)
 
-(defvar regpop-todo "[tT][oO][dD][oO].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$")
-(defvar regpop-stub "[sS][tT][uU][bB].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$")
-(defvar regpop-assert "assert([[:space:]]?+\\(.?+\\)[[:space:]]?+)")
+(defcustom regpop-todo "[tT][oO][dD][oO].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$"
+  "Regex filter used by regpop for filtering TODO items."
+  :type 'regexp
+  :group 'regpop)
 
-(defvar regpop-isearch t
-  "When set, regpop will use isearch with the popup")
+(defcustom regpop-stub "[sS][tT][uU][bB].+?:?[[:space:]]*\\(.?+\\)[[:space:]]?+\\*?/?$"
+  "Regex filter used by regpop for filtering STUB items."
+  :type 'regexp
+  :group 'regpop)
 
-(defvar regpop-display-containing-function nil
+(defcustom regpop-assert "assert([[:space:]]?+\\(.?+\\)[[:space:]]?+)"
+  "Regex filter used by regpop for filtering assert items."
+  :type 'regexp
+  :group 'regpop)
+
+(defcustom regpop-isearch t
+  "When set, regpop will use isearch with the popup"
+  :type 'boolean
+  :group 'regpop)
+
+(defcustom regpop-display-containing-function nil
   "When value is t, the regpop will prefix the popup entry with the
-name of the function containing the regex.")
+name of the function containing the regex."
+  :type 'boolean
+  :group 'regpop)
 
-(defvar regpop-display-line t
+(defcustom regpop-display-line t
   "When value is t, the regpop will prefix the popup entry with the
-line number containing the regex.")
+line number containing the regex."
+  :type 'boolean
+  :group 'regpop)
 
 (defun regpop-goto-line (line)
   "because goto-line isnt supposed to be used in lisp code."
